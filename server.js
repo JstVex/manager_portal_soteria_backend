@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
 
+const donationRoutes = require('./routes/donations')
+
 const app = express();
 
 // middlewares
@@ -19,6 +21,24 @@ app.use(
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded());
+
+// routes
+app.use('/', require('./routes/root'))
+
+app.use('/donations', donationRoutes);
+
+
+
+app.all('*', (req, res) => {
+    res.status(404)
+    if (req.accepts('html')) {
+        res.sendFile(path.join(__dirname, 'views', '404.html'))
+    } else if (req.accepts('json')) {
+        res.json({ message: '404 Not Found' })
+    } else {
+        res.type('txt').send('404 Not Found')
+    }
+})
 
 
 const PORT = process.env.PORT || 4008;
