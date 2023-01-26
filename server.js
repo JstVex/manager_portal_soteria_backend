@@ -5,16 +5,20 @@ const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
 
-const donationRoutes = require('./routes/donations')
+const donationRoutes = require('./routes/donations');
+const campaignRoutes = require('./routes/campaigns');
 
 const app = express();
 
 // middlewares
 app.use(
     cors({
-        origin: "*",
-        methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
-        credentials: true
+        origin: '*',
+        methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],
+        credentials: true,
+        allowedHeaders: [
+            'Content-Type',
+        ]
     })
 )
 
@@ -26,6 +30,8 @@ app.use(express.urlencoded());
 app.use('/', require('./routes/root'))
 
 app.use('/donations', donationRoutes);
+
+app.use('/campaigns', campaignRoutes)
 
 
 
