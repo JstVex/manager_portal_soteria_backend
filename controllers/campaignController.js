@@ -134,12 +134,13 @@ const deleteCampaign = async (req, res) => {
     }
 
     const campaign = await Campaign.findOneAndDelete({ _id: id });
+    const updatedCampaign = await Donation.find({ newPost: true })
 
     if (!campaign) {
         return res.status(404).json({ error: 'this campaign post does not exist' })
     }
 
-    res.status(200).json(campaign)
+    res.status(200).json(updatedCampaign)
 }
 
 // update a campaign
@@ -153,12 +154,13 @@ const updateCampaign = async (req, res) => {
     const campaign = await Campaign.findOneAndUpdate({ _id: id }, { ...req.body }, {
         new: true
     });
+    const updatedAllCampaigns = await Campaign.find({ newPost: true })
 
     if (!campaign) {
         return res.status(404).json({ error: 'this campaign post does not exist' })
     }
 
-    res.status(200).json(campaign)
+    res.status(200).json(updatedAllCampaigns)
 }
 
 module.exports = {

@@ -137,12 +137,13 @@ const deleteDonation = async (req, res) => {
     }
 
     const donation = await Donation.findOneAndDelete({ _id: id });
+    const updatedDonations = await Donation.find({ newPost: true })
 
     if (!donation) {
         return res.status(404).json({ error: 'this donation post does not exist' })
     }
 
-    res.status(200).json(donation)
+    res.status(200).json(updatedDonations)
 }
 
 // update a donation
@@ -156,12 +157,13 @@ const updateDonation = async (req, res) => {
     const donation = await Donation.findOneAndUpdate({ _id: id }, { ...req.body }, {
         new: true
     });
+    const updatedAllDonations = await Donation.find({ newPost: true })
 
     if (!donation) {
         return res.status(404).json({ error: 'this donation post does not exist' })
     }
 
-    res.status(200).json(donation)
+    res.status(200).json(updatedAllDonations)
 }
 
 module.exports = {
