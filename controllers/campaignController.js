@@ -101,7 +101,7 @@ const getCampaign = async (req, res) => {
 
 // creat new campaign
 const createCampaign = async (req, res) => {
-    const { title, img, startDate, endDate, text, name, url, target, prize, forWhom, payment, newPost } = req.body;
+    const { title, startDate, endDate, text, name, url, target, prize, forWhom, payment, newPost } = req.body;
 
     let emptyFields = [];
 
@@ -118,7 +118,11 @@ const createCampaign = async (req, res) => {
         return res.status(400).json({ error: 'please fill in the required fields', emptyFields })
     }
     try {
-        const campaign = await Campaign.create({ title, img, startDate, endDate, text, name, url, target, prize, forWhom, payment, newPost })
+        let imageUrl = '';
+        if (req.file) {
+            imageUrl = req.file.path;
+        }
+        const campaign = await Campaign.create({ title, img: imageUrl, startDate, endDate, text, name, url, target, prize, forWhom, payment, newPost })
         res.status(200).json(campaign)
     } catch (error) {
         res.status(400).json({ error: error.message })
