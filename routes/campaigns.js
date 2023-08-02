@@ -11,6 +11,8 @@ const {
 
 const router = express();
 
+const { upload } = require('../middlewares/multer')
+
 // get webs
 router.get('/', getCampaigns);
 
@@ -35,7 +37,7 @@ router.get('/new', getNewCampaigns);
 router.get('/:id', getCampaign);
 
 // creat a web
-router.post('/', createCampaign);
+router.post('/', upload.single('img'), createCampaign);
 
 // delete a web
 router.delete('/:id', deleteCampaign);

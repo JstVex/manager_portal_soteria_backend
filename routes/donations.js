@@ -8,8 +8,9 @@ const {
     updateDonation,
 } = require('../controllers/donationController');
 
-
 const router = express();
+
+const { upload } = require('../middlewares/multer')
 
 // get webs
 router.get('/', getDonations);
@@ -35,7 +36,7 @@ router.get('/new', getNewDonations);
 router.get('/:id', getDonation);
 
 // creat a web
-router.post('/', createDonation);
+router.post('/', upload.single('img'), createDonation);
 
 // delete a web
 router.delete('/:id', deleteDonation);
